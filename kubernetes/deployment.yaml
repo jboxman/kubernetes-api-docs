@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kasv
+  labels:
+    app: kasv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kasv
+  template:
+    metadata:
+      labels:
+        app: kasv
+    spec:
+      containers:
+      - name: ksav
+# Docker Desktop Kubernetes
+#        image: kasv:latest
+# OpenShift
+        image: image-registry.openshift-image-registry.svc:5000/test/kasv:latest
+# Docker Desktop Kubernetes
+#        imagePullPolicy: Never
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP

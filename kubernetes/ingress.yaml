@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kasv-ingress
+  # OpenShift-specific
+  annotations:
+    route.openshift.io/termination: "edge"
+spec:
+  tls:
+  # https://docs.openshift.com/container-platform/4.11/networking/routes/route-configuration.html#creating-edge-route-with-default-certificate_route-configuration
+  - {}
+  defaultBackend:
+    service:
+      name: kasv
+      port:
+        number: 8080
+  rules:
+  - host: kasv.apps-crc.testing
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kasv
+            port:
+              number: 8080

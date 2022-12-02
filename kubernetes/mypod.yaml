@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    seccomp.security.alpha.kubernetes.io/pod: runtime/default
+  name: mypod
+  namespace: test
+spec:
+  containers:
+  - image: image-registry.openshift-image-registry.svc:5000/test/solunar-ws
+    imagePullPolicy: Always
+    name: mypod
+#    command: ["/bin/sh", "-c"]
+#    args: ["sleep inf"]
+#    command: ["/bin/sh", "-c"]
+#    args: ["start.sh"]
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+#      runAsUser: 1000660000
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  imagePullSecrets:
+  - name: default-dockercfg-gg299
+  nodeName: crc-lgph7-master-0
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+#    fsGroup: 1000660000
+#    seLinuxOptions:
+#      level: s0:c26,c5
+    seccompProfile:
+      type: RuntimeDefault
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+#  volumes:
+#  - name: kube-api-access-2r8sr
+#    projected:
+#      defaultMode: 420
+#      sources:
+#      - serviceAccountToken:
+#          expirationSeconds: 3607
+#          path: token
+#      - configMap:
+#          items:
+#          - key: ca.crt
+#            path: ca.crt
+#          name: kube-root-ca.crt
+#      - downwardAPI:
+#          items:
+#          - fieldRef:
+#              apiVersion: v1
+#              fieldPath: metadata.namespace
+#            path: namespace
+#      - configMap:
+#          items:
+#          - key: service-ca.crt
+#            path: service-ca.crt
+#          name: openshift-service-ca.crt

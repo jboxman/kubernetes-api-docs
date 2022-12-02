@@ -1,0 +1,18 @@
+# Working route
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: mypod
+  labels:
+    app: test1
+spec:
+  host: mypod-test.apps-crc.testing
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: mypod
+    weight: 100
+  wildcardPolicy: None
