@@ -1,3 +1,5 @@
+LABEL org.opencontainers.image.source = "https://github.com/jboxman/kubernetes-api-docs"
+
 FROM node:16.18.1-bullseye-slim AS base
 WORKDIR /app
 
